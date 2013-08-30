@@ -1,5 +1,4 @@
 # encoding: utf-8
-from __future__ import unicode_literals
 import datetime
 from south.db import db
 from south.v2 import SchemaMigration
@@ -22,6 +21,8 @@ class Migration(SchemaMigration):
         db.send_create_signal('tastypie', ['ApiAccess'])
 
         # Adding model 'ApiKey'
+        user = orm[AUTH_USER_MODEL]
+        user._meta.db_table = "custom_user"
         db.create_table('tastypie_apikey', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user', self.gf('django.db.models.fields.related.OneToOneField')(related_name='api_key', unique=True, to=orm[AUTH_USER_MODEL])),
